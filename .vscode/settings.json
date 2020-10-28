@@ -1,0 +1,6 @@
+{
+    "editor.fontSize": 14,
+    "editor.wordWrap": "on",
+    "git.ignoreLimitWarning": true,
+    "java.configuration.updateBuildConfiguration": "interactive"
+}

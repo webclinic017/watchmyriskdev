@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>264981803238-mm13abo1tsj6r96qlq7r17lh0f1r9er5.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.264981803238-mm13abo1tsj6r96qlq7r17lh0f1r9er5</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBuV_UibIMFDwNDnpmi1a-HDkAFkS6TMKM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>264981803238</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.watchmyrisk.ios</string>
+	<key>PROJECT_ID</key>
+	<string>watchmyrisk-edd1a</string>
+	<key>STORAGE_BUCKET</key>
+	<string>watchmyrisk-edd1a.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:264981803238:ios:5651ac25584be918e44b27</string>
+	<key>DATABASE_URL</key>
+	<string>https://watchmyrisk-edd1a.firebaseio.com</string>
+</dict>
+</plist>

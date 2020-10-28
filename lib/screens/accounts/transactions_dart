@@ -1,0 +1,246 @@
+import "package:flutter/material.dart";
+import 'package:WMR/services/apis.dart';
+import 'package:WMR/screens/accounts/show_transaction.dart';
+//import 'package:WMR/screens/transactions/transaction_tile.dart';
+import 'package:WMR/shared/loading.dart';
+import 'package:WMR/shared/constants.dart';
+
+Widget transactionsWidget(token, count, accountType, accountId) {
+  //print("In Transaction Widget $accountType");
+  return FutureBuilder(
+    builder: (context, transactionsSnap) {
+      // if (projectSnap.connectionState == ConnectionState.none &&
+      //     projectSnap.hasData == null) {
+      //   //print('project snapshot data is: ${projectSnap.data}');
+      //   return Container();
+      // }
+      //print(transactionsSnap.data);
+      if (transactionsSnap.data == null) {
+        return Loading();
+      }
+      return ListView.builder(
+        itemCount: transactionsSnap.data.length,
+        //itemCount: 1,
+        itemBuilder: (context, index) {
+          //print(accountsSnap.data[index]['account_name']);
+          Map transaction = transactionsSnap.data[index];
+          if (index == 0) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 5.0),
+              child: Table(
+                border: TableBorder.all(
+                    color: Colors.white, width: 1, style: BorderStyle.none),
+
+                // border: TableBorder(
+                //     top: BorderSide(width: 0.0),
+                //     bottom: BorderSide(width: 1.0, color: Colors.grey[100]),
+                //     left: BorderSide(width: 0.0),
+                //     right: BorderSide(width: 0.0),
+
+                // ),
+                //color: Colors.white, width: 1.0, style: BorderStyle.none),
+                children: [
+                  TableRow(
+                    children: [
+                      TableCell(
+                          child: Text("Date",
+                              style: white_12().copyWith(
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.bold))),
+
+                      TableCell(
+                          child: Text("Symbol",
+                              style: white_12().copyWith(
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.bold))),
+
+                      TableCell(
+                          child: Text("QTY",
+                              style: white_12().copyWith(
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.bold))),
+
+                      TableCell(
+                          child: Text("P/L %",
+                              style: white_12().copyWith(
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.bold))),
+
+                      //TableCell(child: Text(transaction['rule']['name'])),
+                    ],
+                  ),
+                  TableRow(
+                    children: [
+                      TableCell(
+                          child: Text(transaction['date'], style: white_12())),
+
+                      TableCell(
+                          child:
+                              Text(transaction['ticker'], style: white_12())),
+
+                      TableCell(
+                          child: Text(transaction['qty'].toString(),
+                              style: white_12())),
+
+                      TableCell(
+                          child: Text(transaction['pl_pc'].toString(),
+                              style: white_12())),
+
+                      //TableCell(child: Text(transaction['rule']['name'])),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return (Padding(
+              padding: const EdgeInsets.only(bottom: 5.0),
+              child: Table(
+                border: TableBorder.all(
+                    color: Colors.white, width: 1, style: BorderStyle.none),
+                children: [
+                  TableRow(
+                    children: [
+                      TableCell(
+                          child: Text(transaction['date'], style: white_12())),
+
+                      TableCell(
+                          child:
+                              Text(transaction['ticker'], style: white_12())),
+
+                      TableCell(
+                          child: Text(transaction['qty'].toString(),
+                              style: white_12())),
+
+                      TableCell(
+                          child: Text(transaction['pl_pc'].toString(),
+                              style: white_12())),
+
+                      //TableCell(child: Text(transaction['rule']['name'])),
+                    ],
+                  ),
+                ],
+              ),
+            ));
+          }
+        },
+      );
+    },
+    future: getTransactions(count, accountId),
+  );
+}
+
+Widget showSymbol(context, tr) {
+  //print(tr);
+
+  String sym = "${tr['ticker']} (${tr['qty'].toInt().toString()}) ";
+  return GestureDetector(
+      onTap: () async {
+        //print("Tapped");
+        
+        await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ShowTransaction(tr),
+                  ));
+      },
+      child: Text(sym, style: white14Bold()));
+
+//  //"Name",
+//                       style: white_14().copyWith(
+//                           color: _trColor, fontWeight: FontWeight.bold),
+//                     ),
+}
+
+Widget _signleTrWidget(context,tr) {
+  //print("TR: $tr");
+  if (tr['rule']['name'] == null) {
+    tr['rule']['name'] = 'NA';
+  }
+  Color color = Colors.lightBlueAccent;
+  if (tr['rule']['notify_only'] == true) {
+    color = Colors.deepOrangeAccent;
+  }
+  //Color _trColor = Colors.white;
+  // if (rule['is_active'] == false) {
+  //   _ruleColor = Colors.orangeAccent;
+  // }
+  return Container(
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      //mainAxisSize: MainAxisSize.max,
+      //mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        Container(
+          padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+          child: ListTile(
+              isThreeLine: true,
+              dense: true,
+              //leading: Icon(Icons.check_circle_outline),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.radio_button_checked,
+                    size: 10,
+                    color: color,
+                  ),
+                  SizedBox(width: 2),
+                  showSymbol(context, tr),
+                ],
+              ),
+              subtitle: Container(
+                //color:Colors.red,
+                //width: w30,
+                alignment: Alignment.topLeft,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(tr['rule']['name']),
+                      Text(tr['date'])
+                      // _ruleState(rule),
+                      // _whiteListWidget(rule),
+                    ]),
+              ),
+              //
+              trailing: Container(
+                  alignment: Alignment.topCenter,
+                  width: 70,
+                  //color:Colors.red,
+                  child: Container(
+                      alignment: Alignment.topRight,
+                      //width: w20,
+                      child: Text(tr['pl_pc'].toString())))),
+        ),
+        // Text(
+        //   "Whitelisted:",
+        //   style: white_12(),
+        // ),
+        //_whiteListWidget(rule),
+      ],
+    ),
+  );
+}
+
+Widget trWidget(count, accountType, accountId) {
+  //print("Here In Transaction Widget $accountType");
+  return FutureBuilder(
+    builder: (context, transactionsSnap) {
+      if (transactionsSnap.data == null) {
+        return Loading();
+      }
+      return ListView.builder(
+        itemCount: transactionsSnap.data.length,
+        //itemCount: 1,
+        itemBuilder: (context, index) {
+          //print(accountsSnap.data[index]['account_name']);
+          Map tr = transactionsSnap.data[index];
+          return _signleTrWidget(context,tr);
+        },
+      );
+    },
+    future: getTransactions(count, accountId),
+  );
+}

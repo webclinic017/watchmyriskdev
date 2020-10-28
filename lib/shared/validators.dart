@@ -1,0 +1,39 @@
+class NameValidator {
+  static String validate(String value) {
+    if (value.isEmpty) {
+      return "Name can't be empty";
+    }
+    if (value.length < 2) {
+      return "Name must be at least 2 characters long";
+    }
+    if (value.length > 50) {
+      return "Name must be less than 50 characters long";
+    }
+    return null;
+  }
+}
+
+class EmailValidator {
+  static String validate(String value) {
+    if (value.isEmpty) {
+      return "Email can't be empty";
+    }
+    return null;
+  }
+}
+
+class PasswordValidator {
+  //static String validate(String value, String password) {
+  static String validate(String value) {
+    // if (value != password) {
+    //   return "Passwords don't match";
+    // }
+    if (value.isEmpty) {
+      return "Password can't be empty";
+    }
+    if (value.length < 8) {
+      return "Enter a password 8+ chars long";
+    }  
+    return null;
+  }
+}

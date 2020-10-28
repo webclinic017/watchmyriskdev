@@ -1,0 +1,70 @@
+
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+
+
+
+
+class Wrapper extends StatefulWidget {
+  @override
+  _WrapperState createState() => _WrapperState();
+}
+
+class _WrapperState extends State<Wrapper> {
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+
+
+  Future<bool> isFirstTime() async {
+    final SharedPreferences pref = await _prefs;
+     var isFirstTime = pref.getBool('first_time');
+     if (isFirstTime != null && !isFirstTime) {
+       pref.setBool('first_time', false);
+       return false;
+     } else {
+       pref.setBool('first_time', false);
+       return true;
+     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    Timer(Duration(seconds: 3), () {
+    isFirstTime().then((isFirstTime) {
+      isFirstTime ? print("First time") : print("Not first time");
+     });
+    }
+   );
+  }
+
+}
+
+
+
+
+
+
+// return new FutureBuilder<SharedPreferences>(
+//       future: SharedPreferences.getInstance(),
+//       builder:
+//           (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
+//         switch (snapshot.connectionState) {
+//           case ConnectionState.none:
+//           case ConnectionState.waiting:
+//             return new LoadingScreen();
+//           default:
+//             if (!snapshot.hasError) {
+//               @ToDo("Return a welcome screen")
+//               return snapshot.data.getBool("welcome") != null
+//                   ? new MainView()
+//                   : new LoadingScreen();
+//             } else {
+//               return new ErrorScreen(error: snapshot.error);
+//             }
+//         }
+//       },
+//     );
